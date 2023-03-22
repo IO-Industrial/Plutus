@@ -16,7 +16,8 @@
 cmake_minimum_required(VERSION 3.1)
 project (ERPBeyond)
 
-set(CMAKE_CXX_STANDARD   11)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # CMAKE_MODULE_PATH is a CMAKE variable. It contains a list of paths 
@@ -43,3 +44,6 @@ get_filename_component(NATIVE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}" ABSOLUTE)
 message( "NATIVE_ROOT = ${NATIVE_ROOT}")
 
 FIND_PACKAGE( Wt REQUIRED )
+INCLUDE_DIRECTORIES( ${Wt_INCLUDE_DIR} )
+
+add_subdirectory(erp-server)
