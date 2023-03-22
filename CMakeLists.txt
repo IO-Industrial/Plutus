@@ -46,4 +46,5 @@ message( "NATIVE_ROOT = ${NATIVE_ROOT}")
 FIND_PACKAGE( Wt REQUIRED )
 INCLUDE_DIRECTORIES( ${Wt_INCLUDE_DIR} )
 
+add_subdirectory(erp-lib)
 add_subdirectory(erp-server)

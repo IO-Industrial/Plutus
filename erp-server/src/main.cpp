@@ -18,42 +18,76 @@
 //! You should have received a copy of the GNU General Public License
 //! along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <Wt/WApplication.h>
-#include <Wt/WBreak.h>
+#include <Wt/WBootstrap2Theme.h>
 #include <Wt/WContainerWidget.h>
-#include <Wt/WLineEdit.h>
-#include <Wt/WPushButton.h>
-#include <Wt/WText.h>
-#include <memory>
+#include <Wt/WServer.h>
 
-class HelloApplication : public Wt::WApplication
+#include <Wt/Auth/AuthWidget.h>
+#include <Wt/Auth/PasswordService.h>
+
+#include "session.h"
+
+class AuthApplication : public Wt::WApplication
 {
 public:
-    HelloApplication(const Wt::WEnvironment& env);
+  AuthApplication(const Wt::WEnvironment& env)
+    : WApplication(env),
+      session_(appRoot() + "auth.db")
+  {
+    session_.login().changed().connect(this, &AuthApplication::authEvent);
+
+    root()->addStyleClass("container");
+    setTheme(std::make_shared<Wt::WBootstrap2Theme>());
+
+    useStyleSheet("css/style.css");
+
+    std::unique_ptr<Wt::Auth::AuthWidget> authWidget
+        = std::make_unique<Wt::Auth::AuthWidget>(Session::auth(), session_.users(), session_.login());
+
+    authWidget->model()->addPasswordAuth(&Session::passwordAuth());
+    authWidget->model()->addOAuth(Session::oAuth());
+    authWidget->setRegistrationEnabled(true);
+
+    authWidget->processEnvironment();
+
+    root()->addWidget(std::move(authWidget));
+  }
+
+  void authEvent() {
+    if (session_.login().loggedIn()) {
+      const Wt::Auth::User& u = session_.login().user();
+      log("notice")
+        << "User " << u.id()
+        << " (" << u.identity(Wt::Auth::Identity::LoginName) << ")"
+        << " logged in.";
+    } else
+      log("notice") << "User logged out.";
+  }
 
 private:
-    Wt::WLineEdit *nameEdit_;
-    Wt::WText *greeting_;
+  Session session_;
 };
 
-HelloApplication::HelloApplication(const Wt::WEnvironment& env)
-    : Wt::WApplication(env)
+std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment& env)
 {
-    setTitle("Hello world");
-
-    root()->addWidget(std::make_unique<Wt::WText>("Your name, please? "));
-    nameEdit_ = root()->addWidget(std::make_unique<Wt::WLineEdit>());
-    Wt::WPushButton *button = root()->addWidget(std::make_unique<Wt::WPushButton>("Greet me."));
-    root()->addWidget(std::make_unique<Wt::WBreak>());
-    greeting_ = root()->addWidget(std::make_unique<Wt::WText>());
-    auto greet = [this]{
-      greeting_->setText("Hello there, " + nameEdit_->text());
-    };
-    button->clicked().connect(greet);
+  return std::make_unique<AuthApplication>(env);
 }
 
 int main(int argc, char **argv)
 {
-    return Wt::WRun(argc, argv, [](const Wt::WEnvironment& env) {
-      return std::make_unique<HelloApplication>(env);
-    });
+  try {
+    Wt::WServer server{argc, argv, WTHTTP_CONFIGURATION};
+
+    server.addEntryPoint(Wt::EntryPointType::Application, createApplication);
+
+    Session::configureAuth();
+
+    server.run();
+  } catch (Wt::WServer::Exception& e) {
+    std::cerr << e.what() << std::endl;
+  } catch (Wt::Dbo::Exception &e) {
+    std::cerr << "Dbo exception: " << e.what() << std::endl;
+  } catch (std::exception &e) {
+    std::cerr << "exception: " << e.what() << std::endl;
+  }
 }
