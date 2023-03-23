@@ -7,6 +7,7 @@ set(src
   src/main.cpp
   src/model/session.cpp 
   src/model/user.cpp
+  src/application.cpp
   )
 
 add_executable(${target} ${src})

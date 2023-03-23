@@ -1,5 +1,6 @@
+
 //! \brief Web application program entry point
-//! \file main.cpp
+//! \file application.cpp
 //!
 //! \copyright
 //!
@@ -17,13 +18,16 @@
 //!
 //! You should have received a copy of the GNU General Public License
 //! along with this program. If not, see <http://www.gnu.org/licenses/>.
-#include <memory>
+#include <Wt/WApplication.h>
+#include <Wt/WEnvironment.h>
+#include <Wt/WBootstrap5Theme.h>
 #include "application.h"
 
-
-int main(int argc, char **argv)
+ERPApplication::ERPApplication(const Wt::WEnvironment& env)
+    : Wt::WApplication(env)
 {
-    return Wt::WRun(argc, argv, [](const Wt::WEnvironment& env) {
-      return std::make_unique<ERPApplication>(env);
-    });
+    setTitle("Hello world");
+
+    root()->addWidget(std::make_unique<Wt::WText>("Hello world! "));
+    setTheme(std::make_shared<Wt::WBootstrap5Theme>());
 }

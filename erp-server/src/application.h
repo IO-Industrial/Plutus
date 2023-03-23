@@ -1,5 +1,6 @@
+
 //! \brief Web application program entry point
-//! \file main.cpp
+//! \file application.cpp
 //!
 //! \copyright
 //!
@@ -17,13 +18,23 @@
 //!
 //! You should have received a copy of the GNU General Public License
 //! along with this program. If not, see <http://www.gnu.org/licenses/>.
-#include <memory>
-#include "application.h"
+#ifndef _APPLICATION_H_
+#define _APPLICATION_H_
+#include <Wt/WApplication.h>
+#include <Wt/WBreak.h>
+#include <Wt/WContainerWidget.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WPushButton.h>
+#include <Wt/WText.h>
 
 
-int main(int argc, char **argv)
+class ERPApplication : public Wt::WApplication
 {
-    return Wt::WRun(argc, argv, [](const Wt::WEnvironment& env) {
-      return std::make_unique<ERPApplication>(env);
-    });
-}
+public:
+    ERPApplication(const Wt::WEnvironment& env);
+
+private:
+
+};
+
+#endif
