@@ -1,6 +1,4 @@
-
-//! \brief Web application program entry point
-//! \file application.cpp
+//! \file mainpage.h
 //!
 //! \copyright
 //!
@@ -18,19 +16,20 @@
 //!
 //! You should have received a copy of the GNU General Public License
 //! along with this program. If not, see <http://www.gnu.org/licenses/>.
-#include <Wt/WApplication.h>
-#include <Wt/WEnvironment.h>
-#include <Wt/WBootstrap5Theme.h>
-#include "application.h"
-#include "mainpage.h"
+#ifndef _MAINPAGE_H_
+#define _MAINPAGE_H_
+#include <Wt/WContainerWidget.h>
+#include <Wt/WBorderLayout.h>
+#include <Wt/WText.h>
 
-ERPApplication::ERPApplication(const Wt::WEnvironment& env)
-    : Wt::WApplication(env)
+class MainPage : public Wt::WContainerWidget
 {
-    setTitle("Hello world");
-    setTheme(std::make_shared<Wt::WBootstrap5Theme>());
-    root()->addWidget(std::make_unique<MainPage>());
-    // root()->addWidget(std::make_unique<NavigationBarWidget>());
-    // root()->addWidget(std::make_unique<MenuWidget>());
-    // root()->addWidget(std::make_unique<Wt::WText>("Hello world! "));
-}
+public:
+    MainPage();
+
+private:
+    Wt::WMenu *menu;
+};
+
+
+#endif

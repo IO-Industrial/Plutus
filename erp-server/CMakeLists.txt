@@ -8,6 +8,9 @@ set(src
   src/model/session.cpp 
   src/model/user.cpp
   src/application.cpp
+  src/navigation.cpp
+  src/menu.cpp
+  src/mainpage.cpp
   )
 
 add_executable(${target} ${src})
