@@ -1,0 +1,47 @@
+mainmenu "Plutus EAS Project Configuration"
+
+config CONFIG_DMS
+    bool "Enable Document Management System (DMS)"
+    help
+        Enable DMS.  This allows for the storage of documents
+        such as PDF on the local drive.  These documents will 
+        be linked into database.
+
+config CONFIG_CONSOLIDATED_COA
+    bool "Shared (Consolidated) Chart of accounts"
+    default y
+    help
+        Support consolidated chart of accounts.  These will 
+        be shared with all business entities.  Select y to 
+        have one chart of accounts shared by all businesses;
+        Select no to have individual chart of accounts.
+
+menu "Business Entities"
+
+config FOO_FEATURE_1
+     bool "Support Subsidaries"
+
+config FOO_FEATURE_2
+     bool "Foo feature 2"
+
+endmenu
+
+menu "Corporate Compliance"
+
+config FOO_FEATURE_1
+     bool "Foo feature 1"
+
+config FOO_FEATURE_2
+     bool "Foo feature 2"
+
+endmenu
+
+menu "Fleet Operations"
+
+config FOO_FEATURE_1
+     bool "Foo feature 1"
+
+config FOO_FEATURE_2
+     bool "Foo feature 2"
+
+endmenu
