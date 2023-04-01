@@ -18,6 +18,7 @@
 #ifndef _DB_FILE_HEADER_H_
 #define _DB_FILE_HEADER_H_
 #include <stdint.h>
+#include <sys/types.h>
 #include "db/db_record_pointer.h"
 
 /*
@@ -66,6 +67,25 @@ struct DATA_FILE_HEADER
         return sizeof(struct DATA_FILE_HEADER) +
                 (
                     (record_number - 1) * record_length);
+    }
+
+    //! \brief Record number sanity check
+    //!
+    //! This function will do a bounds check to see if our
+    //! logical record number is past the end of the file.
+    //!
+    //! \returns
+    //! \retval false 
+    //!     The supplied logical record number is out of bounds.
+    //! \retval true  
+    //!     The supplied logical record number is in bounds.
+    inline bool isValidRecordNumber(RPTR record_number)
+    {
+        if (record_number > recinfo.next_record)
+        {
+            return false;
+        }
+        return true;
     }
 };
 
