@@ -39,6 +39,7 @@ include_directories(
     )
 
 # unit tests
+add_subdirectory(plutuslib)
 add_subdirectory(unittest)
 add_subdirectory(util)
 
