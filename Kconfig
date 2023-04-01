@@ -38,8 +38,73 @@ endmenu
 
 menu "Fleet Operations"
 
-config FOO_FEATURE_1
-     bool "Foo feature 1"
+config CONFIG_FLEET_FREIGHT_BROKER
+     bool "FMCSA Freight Broker"
+    default n
+
+config CONFIG_FLEET_MOTOR_CARRIER
+     bool "FMCSA Motor Carrier"
+    default n
+
+config CONFIG_FLEET_VEHICLE_INFORMATION
+     bool "Vehicle Information Management"
+    default y
+
+config CONFIG_FLEET_DRIVER_INFORMATION
+     bool "Driver Information Management"
+    default y
+    help
+        Ability to store and manage driver data, including name, contact 
+        information, drivers license number, and any other relevant 
+        information. Ability to track driver assignments to specific 
+        vehicles or trips.
+
+config CONFIG_FLEET_TRIP_MANAGEMENT
+     bool "Trip Management"
+    default y
+    help
+        Ability to plan and manage trips, including specifying the vehicle, driver, 
+        start and end locations, start and end times, distance, and any other 
+        relevant information. Ability to assign drivers to trips and to track 
+        their progress in real-time. Ability to view a summary of each trip, 
+        including its total distance, duration, and any expenses incurred.
+
+config CONFIG_FLEET_PARTS_INVENTORY
+     bool "Maintenance Parts Inventory"
+    default y
+    help
+        Keep an inventory of parts for maintenance and repairs.
+
+config CONFIG_FLEET_MAINTENANCE
+     bool "Maintenance Management"
+    default y
+    help
+        Maintain a database of maintenance records for vehicles
+        in service, as required by DOT and FMCSA requirements.
+
+config CONFIG_FLEET_FUEL_MANAGEMENT
+     bool "Fuel Management"
+    default y
+    help
+        Ability to track fuel purchases and usage for each vehicle, 
+        including fuel type, cost per gallon, and total fuel costs.
+        Ability to monitor fuel efficiency and identify any vehicles 
+        with unusually high fuel consumption. 
+        Ability to forecast fuel costs and plan budgets 
+        accordingly.
+
+config CONFIG_FLEET_WORK_ORDERS
+     bool "Maintenance Work orders"
+    default y
+    help
+        Work orders for in-house repairs and service.
+
+endmenu
+
+menu "Internet and Cloud services"
+
+config CONFIG_INET_DOMAIN_EXPENSE
+     bool "Domain purchases as expense"
 
 config FOO_FEATURE_2
      bool "Foo feature 2"
