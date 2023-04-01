@@ -12,5 +12,5 @@ set(SOURCES ${TEST_SOURCES})
 add_executable(${BINARY} ${TEST_SOURCES})
 target_link_libraries(${BINARY} PUBLIC gtest)
 
-add_test(${BINARY} ${BINARY})
+add_test(${BINARY} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${BINARY})
 
